@@ -8,9 +8,9 @@ const {
 } = require("../controllers/vias.controller");
 const router = express.Router();
 
-router.get("/:sec", getVias);
+router.get("/", getVias);
 router.get("/:id", getVia);
-router.post("/:sec", createVia);
+router.post("/", createVia);
 router.patch("/:id", editVia);
 router.delete("/:id", deleteVia);
 
