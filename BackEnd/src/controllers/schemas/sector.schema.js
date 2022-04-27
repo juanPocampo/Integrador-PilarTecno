@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const ViaSchema = require("./via.schema");
+Joi.objectId = require("joi-objectid")(Joi);
 
 const SectorSchema = Joi.object({
   name: Joi.string(),
@@ -9,6 +9,6 @@ const SectorSchema = Joi.object({
   images: Joi.array().items(
     Joi.string().uri({ allowRelative: true, relativeOnly: true })
   ),
-  vias: Joi.array().items(ViaSchema),
+  vias: Joi.array().items(Joi.objectId()),
 });
 module.exports = SectorSchema;
