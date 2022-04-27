@@ -27,7 +27,7 @@ async function getVias(req, res) {
  */
 async function getVia(req, res) {
   try {
-    const _id = mongoose.Types.ObjectId(req.params.sec);
+    const _id = req.params.id
     const response = await Via.findById(_id);
     res.status(200).json(response.vias);
   } catch (err) {
@@ -52,7 +52,9 @@ async function createVia(req, res) {
   try {
     Joi.assert(dataVia, ViaSchema);
     const sector = await Sector.findById(dataVia.sectorId);
+    console.log(dataVia);
     const via = new Via(dataVia);
+    console.log(via);
     const savedVia = await via.save();
     sector.vias.push(savedVia._id);
     await sector.save();

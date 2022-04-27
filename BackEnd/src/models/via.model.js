@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const ViaSchema = new Schema({
   name: { type: String, required: true },
-  sector: { type: mongoose.Types.ObjectId, ref: "sectores" },
+  sectorId: { type: mongoose.Types.ObjectId, ref: "sectors" },
   opener: { type: String, required: true },
   grade: { type: String, required: true },
   climbingType: { type: String, required: true },
