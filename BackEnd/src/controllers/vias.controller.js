@@ -1,33 +1,36 @@
-const axios = require("axios").default;
-const config = require("config");
 const mongoose = require("mongoose");
 const Joi = require("joi");
 const ViaSchema = require("./schemas/via.schema");
-const { Sector } = require("../models/sector.model");
-const { Via } = require("../models/via.model");
+const Via = require("../models/via.model");
+const Sector = require("../models/sector.model");
 /**
- * getVias()
+ ** getVias ok
  * get all Vias on database
  * @param {*} req
  * @param {*} res
  */
 async function getVias(req, res) {
   try {
-    const response = await Via.find({});
+    const response = await Via.find({}).populate("sectorId", {
+      name: 1,
+      map: 1,
+      lat: 1,
+      long: 1,
+    });
     res.status(200).json(response);
   } catch (error) {
     console.error(error);
   }
 }
 /**
- * getVia
+ ** getVia ok
  * get via by id
  * @param {req.params.id} req
  * @param {*} res
  */
 async function getVia(req, res) {
   try {
-    const _id = req.params.id
+    const _id = req.params.id;
     const response = await Via.findById(_id);
     res.status(200).json(response.vias);
   } catch (err) {
@@ -42,7 +45,7 @@ async function getVia(req, res) {
   }
 }
 /**
- * createVia
+ ** createVia ok
  * Create a new via and append to a sector.vias
  * @param {body:{name,sectorId,opener,grade,climbingType,preview,rockKind?,desc?,images?}} req
  * @param {*} res
@@ -71,9 +74,9 @@ async function createVia(req, res) {
   }
 }
 /**
- * editVia
+ ** editVia ok
  * Edit a via and move to the right sector
- * @param {body:{id,name,sectorId,opener,grade,climbingType,preview,rockKind?,desc?,images?}} req
+ * @param { params.id, body : {name,sectorId,opener,grade,climbingType,preview,rockKind?,desc?,images? } } req
  * @param {*} res
  */
 async function editVia(req, res) {
@@ -81,23 +84,27 @@ async function editVia(req, res) {
   const dataVia = req.body;
   try {
     Joi.assert(dataVia, ViaSchema);
-    const via = Via.findByIdAndUpdate(_id, dataVia);
-    if (via.sectorId != dataVia.sectorId) await moveVia(via, dataVia.sectorId);
+    const via = await Via.findByIdAndUpdate(_id, dataVia, { new: false });
+    //console.log(via.sectorId != dataVia.sectorId);
+    //if (via.sectorId != dataVia.sectorId) await moveVia(via, dataVia.sectorId);
     res.status(204).json(via);
   } catch (err) {
     console.error(err);
+    res.sendStatus(500);
   }
 }
 /**
- * moveVia aux for editVia
+ ** moveVia aux for notOK test
  * Remove the via from the old sector and add to the new one
  * @param {via: Model} via
  * @param {oldSectorId} sector
  */
 async function moveVia(via, sector) {
   try {
-    const rmv = Sector.findById(sector);
-    const add = Sector.findById(via.sectorId);
+    const rmv = await Sector.findById(sector);
+    const add = await Sector.findById(via.sectorId);
+    console.log("add :", add);
+    console.log("rmv :", rmv);
     add.vias.push(via);
     await add.save();
     const index = rmv.vias.indexOf(via._id);
@@ -110,7 +117,7 @@ async function moveVia(via, sector) {
   }
 }
 /**
- * deleteVia
+ ** deleteVia ok
  * Delete via and remove from sector.vias
  * @param {body:{id,name?,sectorId,opener?,grade?,climbingType?,preview?,rockKind?,desc?,images?}} req
  * @param {*} res
@@ -118,11 +125,13 @@ async function moveVia(via, sector) {
 async function deleteVia(req, res) {
   const dataVia = req.body;
   try {
-    const sector = await Sector.findById(dataVia.sectorId)
-    const index = sector.vias.indexOf(dataVia.id)
-    if(index != -1) sector.vias.splice(index,1);
-    const response = await Via.findByIdAndRemove(dataVia.id)
-    res.status(204).json(response)
+    console.log("dataVia.sectorId", dataVia.sectorId);
+    const sector = await Sector.findById(dataVia.sectorId);
+    console.log("sector", sector);
+    const index = sector.vias.indexOf(dataVia.id);
+    if (index != -1) sector.vias.splice(index, 1);
+    const response = await Via.findByIdAndRemove(dataVia.id);
+    res.status(204).json(response);
   } catch (err) {
     console.error(err);
     const error = new Error();

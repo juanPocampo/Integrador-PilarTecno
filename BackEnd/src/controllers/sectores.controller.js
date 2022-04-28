@@ -3,26 +3,43 @@ const config = require("config");
 const mongoose = require("mongoose");
 const Joi = require("joi");
 const SectorSchema = require("./schemas/sector.schema");
-const { Sector } = require("../models/sector.model");
-
+const Via = require("../models/via.model");
+const Sector = require("../models/sector.model");
+/**
+ * * getSectores
+ * get all sectores from database
+ * @param {} req
+ * @param {[*{sector}]} res
+ */
 async function getSectores(req, res) {
   try {
-    const response = await Sector.find({});
+    const response = await Sector.find({}).populate("vias", {
+      name: 1,
+      preview: 1,
+      grade: 1,
+    });
     res.status(200).json(response);
   } catch (err) {
+    console.error(err);
     const error = new Error();
-    Object.assign(error, {
+    /* Object.assign(error, {
       code: "BAD REQUEST",
       message: err.details[0].message,
       severity: "LOW",
-    });
+    }); */
     res.status(400).json(error);
   }
 }
+/**
+ **getSector
+ * get sectores by id
+ * @param {params.id} req
+ * @param {*} res
+ */
 async function getSector(req, res) {
   try {
     const _id = mongoose.Types.ObjectId(req.params);
-    const response = await Sector.findById(_id);
+    const response = await Sector.findById(_id).populate("vias");
     res.status(200).json(response);
   } catch (err) {
     console.error(err);
@@ -35,6 +52,12 @@ async function getSector(req, res) {
     res.status(400).json(error);
   }
 }
+/**
+ ** CreateSector
+ * Create a new sector
+ * @param {body: {name,map,lat,long,images?,vias?}} req
+ * @param {*} res
+ */
 async function createSector(req, res) {
   const data = req.body;
   try {
@@ -52,12 +75,19 @@ async function createSector(req, res) {
     res.status(400).json(error);
   }
 }
+//TODO editSector and deleteSector
+/**
+ * * editSector
+ *  update one sector by id
+ * @param {body: {name,map,lat,long,images?,vias?}} req
+ * @param {*} res
+ */
 async function editSector(req, res) {
   const _id = mongoose.Types.ObjectId(req.params);
   const data = req.body;
   try {
     Joi.assert(data, SectorSchema);
-    const response = await Sector.updateOne({ _id }, data);
+    const response = await Sector.findByIdAndUpdate(_id, data, { new: true });
     res.status(200).json(response);
   } catch (err) {
     const error = new Error();
@@ -69,6 +99,11 @@ async function editSector(req, res) {
     res.status(400).json(error);
   }
 }
+/**
+ * *deleteSector
+ * @param {*} req
+ * @param {*} res
+ */
 async function deleteSector(req, res) {
   const _id = mongoose.Types.ObjectId(req.params);
   try {
