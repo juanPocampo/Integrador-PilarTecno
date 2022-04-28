@@ -7,9 +7,9 @@ const SectorSchema = new Schema({
   lat: { type: String, required: true },
   long: { type: String, required: true },
   images: { type: [String] },
-  vias: [{ type: mongoose.Types.ObjectId, ref: "vias" }],
+  vias: [{ type: mongoose.Types.ObjectId, ref: "via" }],
 });
 
 const Sector = mongoose.model("sector", SectorSchema);
 
-module.exports = { Sector };
+module.exports = Sector;

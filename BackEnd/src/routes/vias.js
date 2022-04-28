@@ -12,6 +12,6 @@ router.get("/", getVias);
 router.get("/:id", getVia);
 router.post("/", createVia);
 router.patch("/:id", editVia);
-router.delete("/:id", deleteVia);
+router.delete("/", deleteVia);
 
 module.exports = router;
