@@ -1,24 +1,24 @@
-import { Navigate, useRoutes } from 'react-router-dom';
-import DashboardLayout from "./layouts/DashboardLayout";
-import NotFound from "./layouts/NotFound";
-import Dashboard from "./dashboard/Dashboard";
-import Notes from "./notes/Notes";
-import Reports from "./reports/Reports";
+import { Navigate, useRoutes } from "react-router-dom";
+import DashboardLayout from "./Layout/DashboardLayout";
+import NotFound from "./Layout/NotFound";
+import Sectores from "./Sectores/Sectores";
+import Administracion from "./Administracion/Administracion";
+import Vias from "./Vias/Vias";
 
 const Routes = () => {
   return useRoutes([
     {
-      path: '/',
+      path: "/",
       element: <DashboardLayout />,
       children: [
-        { path: '', element: <Dashboard /> },
-        { path: 'notes', element: <Notes /> },
-        { path: 'reports', element: <Reports /> },
-      ]
+        { path: "", element: <Sectores /> },
+        { path: "vias", element: <Vias /> },
+        { path: "admin", element: <Administracion /> },
+      ],
     },
-    {path: '/404', element: <NotFound/>},
-    {path:'*', element: <Navigate to="/404" replace/>}
-  ])
-}
+    { path: "/404", element: <NotFound /> },
+    { path: "*", element: <Navigate to="/404" replace /> },
+  ]);
+};
 
 export default Routes;
