@@ -3,21 +3,23 @@ const config = require("config");
 const mongoose = require("mongoose");
 const Joi = require("joi");
 const SectorSchema = require("./schemas/sector.schema");
-const Via = require("../models/via.model");
 const Sector = require("../models/sector.model");
 /**
  * * getSectores
  * get all sectores from database
  * @param {} req
- * @param {[*{sector}]} res
+ * @param {} res
+ * @returns [{sectores}]
  */
 async function getSectores(req, res) {
   try {
-    const response = await Sector.find({}).populate("vias", {
+    const response = await Sector.find({}).populate(
+      "vias" /* , {
       name: 1,
       preview: 1,
       grade: 1,
-    });
+    } */
+    );
     res.status(200).json(response);
   } catch (err) {
     console.error(err);
@@ -38,7 +40,7 @@ async function getSectores(req, res) {
  */
 async function getSector(req, res) {
   try {
-    const _id = mongoose.Types.ObjectId(req.params);
+    const _id = req.params;
     const response = await Sector.findById(_id).populate("vias");
     res.status(200).json(response);
   } catch (err) {

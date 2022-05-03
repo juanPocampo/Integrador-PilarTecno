@@ -8,12 +8,12 @@ const ViaSchema = Joi.object({
   grade: Joi.string().required(),
   climbingType: Joi.string().required(),
   preview: Joi.string()
-    .uri({ allowRelative: true, relativeOnly: true })
+    .uri()
     .required(),
   rockKind: Joi.string(),
   desc: Joi.string(),
   images: Joi.array().items(
-    Joi.string().uri({ allowRelative: true, relativeOnly: true })
+    Joi.string().uri()
   ),
 });
 module.exports = ViaSchema;
