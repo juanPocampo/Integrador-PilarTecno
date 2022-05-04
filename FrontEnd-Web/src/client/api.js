@@ -10,6 +10,7 @@ const get = async (url) => {
   }
 };
 const post = async (url, body) => {
+  console.log(url, body);
   try {
     const response = await axios.post(url, body);
     return response.data;
@@ -28,7 +29,6 @@ const patch = async (url, body) => {
 const delet = async (url, sectorId) => {
   try {
     const response = await axios.delete(url, { data: { sectorId } });
-    console.log(response);
     return response.data;
   } catch (error) {
     throw new Error(error);

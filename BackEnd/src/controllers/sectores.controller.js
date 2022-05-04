@@ -85,13 +85,15 @@ async function createSector(req, res) {
  * @param {*} res
  */
 async function editSector(req, res) {
-  const _id = mongoose.Types.ObjectId(req.params);
+  const { id } = req.params;
   const data = req.body;
+  console.log(id, data);
   try {
     Joi.assert(data, SectorSchema);
-    const response = await Sector.findByIdAndUpdate(_id, data, { new: true });
+    const response = await Sector.findByIdAndUpdate(id, data, { new: true });
     res.status(200).json(response);
   } catch (err) {
+    console.error(err);
     const error = new Error();
     Object.assign(error, {
       code: "BAD REQUEST",
@@ -107,7 +109,7 @@ async function editSector(req, res) {
  * @param {*} res
  */
 async function deleteSector(req, res) {
-  const _id = mongoose.Types.ObjectId(req.params);
+  const _id = req.params;
   try {
     const response = await Sector.deleteOne(_id);
     res.status(200).json(response);
