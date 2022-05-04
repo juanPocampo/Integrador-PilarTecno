@@ -1,2 +1,0 @@
-# PilarTecnoMobile
-Pilar Tecno App 
