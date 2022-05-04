@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import AppStack from "../routes/app";
 import { Provider } from "react-redux";
 import { store } from "../store";
-import { hasLocationPermission } from "../sercices/LocationPermissions";
+import { hasLocationPermission } from "../services/LocationPermissions";
 
 export default App = () => {
   useEffect(() => {
