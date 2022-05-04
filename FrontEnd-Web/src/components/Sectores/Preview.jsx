@@ -1,5 +1,5 @@
 import { useTheme } from '@emotion/react'
-import { CardContent, CardHeader, Grid, ListItem } from '@mui/material'
+import { CardHeader, } from '@mui/material'
 import { CardMedia } from '@mui/material'
 import { Typography } from '@mui/material'
 import { Card } from '@mui/material'

@@ -22,7 +22,7 @@ const ViasTable = (props) => {
   const [loading, setLoading] = useState(true)
   const [vias, setVias] = useState(sector.vias || [])
   useEffect(() => {
-    if (vias.length == 0) {
+    if (vias.length === 0) {
       setLoading(true)
       getAllVias().then((data) => setVias(data)).then(setLoading(false))
     }
@@ -78,7 +78,7 @@ const ViasTable = (props) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {vias.map((row) => (
+        {loading && vias.map((row) => (
           <TableRow key={row._id}>
             <TableCell>{row.name}</TableCell>
             <TableCell>{row.grade}</TableCell>

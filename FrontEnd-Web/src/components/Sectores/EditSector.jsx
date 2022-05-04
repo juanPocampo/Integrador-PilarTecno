@@ -1,4 +1,4 @@
-import { Button, Card, CardHeader, CardMedia, CircularProgress, Dialog, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, TextField, Typography } from '@mui/material'
+import { Button, CardMedia, CircularProgress, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, TextField, Typography } from '@mui/material'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import React, { useEffect, useState } from 'react'
@@ -26,11 +26,10 @@ export default function EditSector(props) {
         getSectoresImage().then((imgs) => {
             setImages(imgs)
         }).then(() => setLoading(false))
-        console.log(sector);
     }, [])
     const handleImage = (url) => {
         const index = sectorImages.indexOf(url)
-        if (index == -1) {
+        if (index === -1) {
             setSectorImages((prevState) => [...prevState, url])
         } else {
             setSectorImages((prevState) => prevState.filter((v, i) => i !== index))
@@ -133,7 +132,7 @@ export default function EditSector(props) {
                 </Grid>
                 <Grid item sx={{ width: '100%', placeItems: 'center' }}>
                     <Typography variant='subtitle1' sx={{ color: theme.palette.grey['700'] }}>Seleccione la Guía</Typography>
-                    {!loading ? map == "" ? <ImageList sx={{ width: '100%', maxHeight: '60vh' }} cols={3} rowHeight={164}>
+                    {!loading ? map === "" ? <ImageList sx={{ width: '100%', maxHeight: '60vh' }} cols={3} rowHeight={164}>
                         {images.filter((element) => element.url.includes("Guia")).map((item) => (
                             <ImageListItem key={item._id}>
                                 <img
@@ -175,17 +174,17 @@ export default function EditSector(props) {
                                     onDoubleClick={() => handleImage(item.url)}
                                 />
                                 <ImageListItemBar
-                                    actionIcon={sectorImages.indexOf(item.url) != -1 ? <CheckIcon sx={{ color: theme.palette.primary.light }} /> : <RemoveIcon sx={{ color: theme.palette.primary.light }} />}
+                                    actionIcon={sectorImages.indexOf(item.url) !== -1 ? <CheckIcon sx={{ color: theme.palette.primary.light }} /> : <RemoveIcon sx={{ color: theme.palette.primary.light }} />}
                                 />
                             </ImageListItem>
                         ))}
                     </ImageList>}
                 </Grid>
                 <Grid item sx={{ width: "100%" }}>
-                    {sector._id == 0 ? <></> : <ViasTable editable="true" />}
+                    {sector._id === 0 ? <></> : <ViasTable editable="true" />}
                 </Grid>
                 <Grid item sx={{ width: "100%" }}>
-                    {sector._id == 0
+                    {sector._id === 0
                         ? <Button variant='contained' sx={{ width: "100%", color: theme.palette.primary.contrastText }} onClick={() => { addSector() }}>Nuevo Sector</Button>
                         : <Button variant='contained' sx={{ width: "100%", backgroundColor: theme.palette.secondary.contrastText }} onClick={() => { edit() }} >Modificar Sector</Button>}
                 </Grid>

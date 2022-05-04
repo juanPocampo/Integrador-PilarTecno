@@ -1,11 +1,11 @@
 import React from 'react'
-import { Grid, List, Typography, useTheme } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { CircularProgress } from '@mui/material';
 import Preview from './Preview';
 
 export default function SectoresView() {
-  const theme = useTheme();
+
   const sectores = useSelector(state => state.sector.sectores)
   console.log(sectores);
   return (

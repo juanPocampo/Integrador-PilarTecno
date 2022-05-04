@@ -32,12 +32,11 @@ function EditVia() {
     getViasImage().then((imgs) => {
       setImages(imgs)
     }).then(() => setLoading(false))
-    console.log(viaImages);
   }, [])
 
   const handleImage = (url) => {
     const index = viaImages.indexOf(url)
-    if (index == -1) {
+    if (index === -1) {
       setViaImages((prevState) => [...prevState, url])
     } else {
       setViaImages((prevState) => prevState.filter((v, i) => i !== index))
@@ -155,7 +154,7 @@ function EditVia() {
         </Grid>
         <Grid item sx={{ width: "100%" }}>
           <Typography variant='subtitle1' sx={{ color: theme.palette.grey['700'] }}>Seleccione la Guía</Typography>
-          {!loading ? preview == "" ?
+          {!loading ? preview === "" ?
             <ImageList sx={{ width: '100%', maxHeight: '60vh' }} cols={3} rowHeight={164}>
               {images.filter((element) => element.url.includes("Preview")).map((item) => (
                 <ImageListItem key={item._id}>
@@ -173,7 +172,7 @@ function EditVia() {
               <div style={{ display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
                 <Typography variant='caption' sx={{ color: theme.palette.primary.light }}>Guia Seleccionada</Typography>
                 <RemoveIcon sx={{ color: theme.palette.primary.light }} onClick={() => setPreview("")} /></div>
-              <img sx={{ width: '100%', maxHeight: '40vh' }} src={preview} />
+              <img sx={{ width: '100%', maxHeight: '40vh' }} src={preview} alt="Preview"/>
             </div>
             : <div style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "center" }}><CircularProgress color="success" /></div>}
         </Grid>
@@ -191,7 +190,7 @@ function EditVia() {
                   onDoubleClick={() => handleImage(item.url)}
                 />
                 <ImageListItemBar
-                  actionIcon={viaImages.indexOf(item.url) != -1 ?
+                  actionIcon={viaImages.indexOf(item.url) !== -1 ?
                     <CheckIcon sx={{ color: theme.palette.primary.light }} />
                     : <RemoveIcon sx={{ color: theme.palette.primary.light }} />}
                 />
@@ -200,7 +199,7 @@ function EditVia() {
           </ImageList>}
         </Grid>
         <Grid item sx={{ width: "100%" }}>
-          {via._id == 0
+          {via._id === 0
             ? <Button variant='contained' sx={{ width: "100%", color: theme.palette.primary.contrastText }} onClick={() => { addVia() }}>Nueva Via</Button>
             : <Button variant='contained' sx={{ width: "100%", backgroundColor: theme.palette.secondary.contrastText }} onClick={() => { edit() }}>Modificar Via</Button>}
         </Grid>
