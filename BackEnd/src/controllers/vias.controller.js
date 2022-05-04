@@ -55,9 +55,7 @@ async function createVia(req, res) {
   try {
     Joi.assert(dataVia, ViaSchema);
     const sector = await Sector.findById(dataVia.sectorId);
-    console.log(dataVia);
     const via = new Via(dataVia);
-    console.log(via);
     const savedVia = await via.save();
     sector.vias.push(savedVia._id);
     await sector.save();
@@ -85,6 +83,7 @@ async function editVia(req, res) {
   try {
     Joi.assert(dataVia, ViaSchema);
     const via = await Via.findByIdAndUpdate(_id, dataVia, { new: false });
+    //TODO que moveVia Funcione
     //console.log(via.sectorId != dataVia.sectorId);
     //if (via.sectorId != dataVia.sectorId) await moveVia(via, dataVia.sectorId);
     res.status(204).json(via);
@@ -123,14 +122,14 @@ async function moveVia(via, sector) {
  * @param {*} res
  */
 async function deleteVia(req, res) {
-  const dataVia = req.body;
+  const id = req.params.id;
+  const { sectorId } = req.body;
   try {
-    console.log("dataVia.sectorId", dataVia.sectorId);
-    const sector = await Sector.findById(dataVia.sectorId);
-    console.log("sector", sector);
-    const index = sector.vias.indexOf(dataVia.id);
+    console.log(sectorId);
+    const sector = await Sector.findById(sectorId);
+    const index = sector.vias.indexOf(id);
     if (index != -1) sector.vias.splice(index, 1);
-    const response = await Via.findByIdAndRemove(dataVia.id);
+    const response = await Via.findByIdAndRemove(id);
     res.status(204).json(response);
   } catch (err) {
     console.error(err);
