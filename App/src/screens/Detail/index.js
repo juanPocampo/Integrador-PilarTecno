@@ -10,9 +10,9 @@ import {
 } from "react-native";
 import { ListItem } from "react-native-elements";
 import { IMG_URL, getPokemon } from "../../api";
-import { getPokemonImgId } from "../../utils";
+import { getPokemonImgId } from "../../services/utils";
 import { styles } from "./styles";
-import { theme } from "../../constans";
+import { theme } from "../../services/constans";
 import { ScrollView } from "react-native-gesture-handler";
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));

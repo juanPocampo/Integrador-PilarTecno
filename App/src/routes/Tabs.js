@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Icon } from "react-native-elements";
-import { theme } from "../constans";
+import { theme } from "../services/constans";
 import Home from "../screens/Home";
 import Profile from "../screens/Profile";
 import List from "../screens/List";
@@ -27,15 +27,6 @@ export const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Icon name={"user"} type="font-awesome-5" size={20} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="List"
         component={List}
         options={{
@@ -55,6 +46,15 @@ export const Tabs = () => {
         options={{
           tabBarIcon: ({ color }) => (
             <Icon name={"map"} type="font-awesome-5" size={20} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Icon name={"user"} type="font-awesome-5" size={20} color={color} />
           ),
         }}
       />

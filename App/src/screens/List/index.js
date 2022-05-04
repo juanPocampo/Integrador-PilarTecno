@@ -11,9 +11,9 @@ import {
 import { Text, Avatar, Button, Icon, ListItem } from "react-native-elements";
 import Header from "../../components/Header";
 import { getPokemonList, IMG_URL } from "../../api";
-import { getPokemonImgId } from "../../utils";
+import { getPokemonImgId } from "../../services/utils";
 import { styles } from "./styles";
-import { theme } from "../../constans";
+import { theme } from "../../services/constans";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 const wait = (timeout) => {

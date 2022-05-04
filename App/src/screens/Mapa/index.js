@@ -2,9 +2,8 @@ import React, { Component, useCallback, useState, useEffect } from "react";
 import { SafeAreaView, View, Dimensions, Text, Switch } from "react-native";
 import { Icon, Image } from "react-native-elements";
 import Geolocation from "react-native-geolocation-service";
-import { ScrollView } from "react-native-gesture-handler";
 import MapView, { Marker } from "react-native-maps";
-import { theme } from "../../constans";
+import { theme } from "../../services/constans";
 import { styles } from "./styles";
 
 const width = Dimensions.get("window").width;
