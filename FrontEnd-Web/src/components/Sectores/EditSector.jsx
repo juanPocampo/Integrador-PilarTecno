@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux'
 import ViasTable from '../ViasTable'
 import { useTheme } from '@emotion/react';
-import { addNewSector, getSectoresImage } from '../../services/api.services';
+import { addNewSector, editSector, getSectoresImage } from '../../services/api.services';
 import { allSectores, setSector } from '../../redux/Actions/api.action';
 
 export default function EditSector(props) {
@@ -26,6 +26,7 @@ export default function EditSector(props) {
         getSectoresImage().then((imgs) => {
             setImages(imgs)
         }).then(() => setLoading(false))
+        console.log(sector);
     }, [])
     const handleImage = (url) => {
         const index = sectorImages.indexOf(url)
@@ -79,7 +80,45 @@ export default function EditSector(props) {
             text: "Lo sentimos hubo un error inesperado"
         }))
     }
-
+    const edit = async () => {
+        const asking = withReactContent(Swal)
+        asking.fire({
+            icon: "question",
+            title: "Modificar Sector",
+            text: "¿Está seguro de que quiere guardar los cambios realizados?",
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+            cancelButtonColor: "red",
+            confirmButtonText: 'Guardar',
+            confirmButtonColor: theme.palette.secondary.contrastText
+        }).then(async (ans) => {
+            if (ans.isConfirmed) {
+                const id = sector._id
+                const newSector = {
+                    name,
+                    lat,
+                    long,
+                    map,
+                    images: sectorImages,
+                }
+                try {
+                    const chk = await editSector(id, newSector)
+                    console.log(chk);
+                    asking.fire({
+                        icon: "success",
+                        title: "Sector Modificadp",
+                        text: "El sector ha sido modificado exitosamente.",
+                        confirmButtonColor: theme.palette.secondary.contrastText
+                    }).then(() => {
+                        dispatch(allSectores())
+                        dispatch(setSector({}))
+                    })
+                } catch (error) {
+                    throw new Error(error)
+                }
+            }
+        })
+    }
     return (
         <div style={{ display: "flex", flexDirection: "column" }}>
             <IconButton color="error" onClick={() => dispatch(setSector({}))} sx={{ alignSelf: "flex-end" }}>
@@ -148,7 +187,7 @@ export default function EditSector(props) {
                 <Grid item sx={{ width: "100%" }}>
                     {sector._id == 0
                         ? <Button variant='contained' sx={{ width: "100%", color: theme.palette.primary.contrastText }} onClick={() => { addSector() }}>Nuevo Sector</Button>
-                        : <Button variant='contained' sx={{ width: "100%", backgroundColor: theme.palette.secondary.contrastText }}>Modificar Sector</Button>}
+                        : <Button variant='contained' sx={{ width: "100%", backgroundColor: theme.palette.secondary.contrastText }} onClick={() => { edit() }} >Modificar Sector</Button>}
                 </Grid>
             </Grid>
         </div>
