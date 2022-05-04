@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Icon } from "react-native-elements";
-import { theme } from "../services/constans";
+import { theme } from "../services/constants";
 import Home from "../screens/Home";
 import Profile from "../screens/Profile";
 import List from "../screens/List";

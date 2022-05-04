@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView, View, Text, ImageBackground } from "react-native";
 import { Input, Button, Icon } from "react-native-elements";
 import { useDispatch } from "react-redux";
-import { theme } from "../../../services/constans";
+import { theme } from "../../../services/constants";
 import { styles } from "./styles";
 import { setUserAction } from "../../../store/actions/user.action";
 

@@ -13,7 +13,7 @@ import Header from "../../components/Header";
 import { getPokemonList, IMG_URL } from "../../api";
 import { getPokemonImgId } from "../../services/utils";
 import { styles } from "./styles";
-import { theme } from "../../services/constans";
+import { theme } from "../../services/constants";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 const wait = (timeout) => {
