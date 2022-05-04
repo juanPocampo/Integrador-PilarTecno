@@ -8,9 +8,11 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllVias } from '../services/api.services';
+import { deleteVia, getAllVias } from '../services/api.services';
 import { useTheme } from '@emotion/react';
-import { setVia } from '../redux/Actions/api.action';
+import { allSectores, setSector, setVia } from '../redux/Actions/api.action';
+import withReactContent from 'sweetalert2-react-content';
+import Swal from 'sweetalert2';
 
 const ViasTable = (props) => {
   const theme = useTheme()
@@ -20,13 +22,49 @@ const ViasTable = (props) => {
   const [loading, setLoading] = useState(true)
   const [vias, setVias] = useState(sector.vias || [])
   useEffect(() => {
-    if (sector.hasOwnProperty('vias')) {
+    if (vias.length == 0) {
       setLoading(true)
       getAllVias().then((data) => setVias(data)).then(setLoading(false))
     }
   }, [])
   const addVia = () => {
     dispatch(setVia({ _id: "0" }))
+  }
+  const delVia = async (via) => {
+    const asking = withReactContent(Swal)
+    asking.fire({
+      icon: "warning",
+      title: "Nuevo Sector",
+      text: "¿Está seguro de que quiere ELIMINAR los datos?",
+      showCancelButton: true,
+      cancelButtonText: "Cancelar",
+      cancelButtonColor: "red",
+      confirmButtonText: 'Eliminar',
+      confirmButtonColor: theme.palette.primary.light
+    }).then(async (ans) => {
+      if (ans.isConfirmed) {
+        const oldVia = {
+          sectorId: sector._id,
+          id: via._id,
+        }
+        try {
+          const chk = await deleteVia(oldVia.id, oldVia.sectorId)
+          console.log(chk);
+          asking.fire({
+            icon: "success",
+            title: "Via Borrada",
+            text: "La Vía ha sido borrada con éxito.",
+            confirmButtonColor: theme.palette.secondary.contrastText
+          }).then(() => {
+            dispatch(allSectores())
+            dispatch(setSector({}))
+            dispatch(setVia({}))
+          })
+        } catch (error) {
+          throw new Error(error)
+        }
+      }
+    })
   }
   return (
     <Table width={"100%"}>
@@ -47,8 +85,8 @@ const ViasTable = (props) => {
             <TableCell>{row.sectorId?.name}</TableCell>
             <TableCell>{row.type}</TableCell>
             <TableCell align="right"><div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-              <EditIcon color="success" onClick={() => { alert(row._id) }} />
-              <DeleteOutlineIcon color="error" onClick={() => { alert(row._id) }} />
+              <EditIcon color="success" onClick={() => { dispatch(setVia(row)) }} />
+              <DeleteOutlineIcon color="error" onClick={() => { delVia(row) }} />
             </div></TableCell>
           </TableRow>
         ))}

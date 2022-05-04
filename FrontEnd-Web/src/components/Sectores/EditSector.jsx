@@ -1,4 +1,4 @@
-import { Button, Card, CardHeader, CircularProgress, Dialog, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, TextField, Typography } from '@mui/material'
+import { Button, Card, CardHeader, CardMedia, CircularProgress, Dialog, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, TextField, Typography } from '@mui/material'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import React, { useEffect, useState } from 'react'
@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import ViasTable from '../ViasTable'
 import { useTheme } from '@emotion/react';
 import { addNewSector, getSectoresImage } from '../../services/api.services';
-import { setSector } from '../../redux/Actions/api.action';
+import { allSectores, setSector } from '../../redux/Actions/api.action';
 
 export default function EditSector(props) {
     const theme = useTheme()
@@ -64,6 +64,9 @@ export default function EditSector(props) {
                         title: "Nuevo Sector",
                         text: "El nuevo sector fue agregado con éxito.",
                         confirmButtonColor: theme.palette.secondary.contrastText
+                    }).then(() => {
+                        dispatch(allSectores())
+                        dispatch(setSector({}))
                     })
                 } catch (error) {
                     throw new Error(error)
@@ -92,7 +95,7 @@ export default function EditSector(props) {
                 <Grid item sx={{ width: '100%', placeItems: 'center' }}>
                     <Typography variant='subtitle1' sx={{ color: theme.palette.grey['700'] }}>Seleccione la Guía</Typography>
                     {!loading ? map == "" ? <ImageList sx={{ width: '100%', maxHeight: '60vh' }} cols={3} rowHeight={164}>
-                        {images.map((item) => (
+                        {images.filter((element) => element.url.includes("Guia")).map((item) => (
                             <ImageListItem key={item._id}>
                                 <img
                                     src={`${item.url}?w=164&h=164&fit=crop&auto=format`}
@@ -103,12 +106,26 @@ export default function EditSector(props) {
                                 />
                             </ImageListItem>
                         ))}
-                    </ImageList> : <Typography variant='caption' sx={{ color: theme.palette.primary.light }}>Guia Seleccionada{'\u00A0'}{'\u00A0'}{'\u00A0'}<RemoveIcon sx={{ color: theme.palette.primary.light }} onClick={() => setMap("")} /></Typography> : <CircularProgress color="success" sx={{ justifySelf: 'center' }} />}
+                    </ImageList>
+                        : <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                            <div style={{ display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
+                                <Typography variant='caption' sx={{ color: theme.palette.primary.light }}>Guia Seleccionada</Typography>
+                                <RemoveIcon sx={{ color: theme.palette.primary.light }} onClick={() => setMap("")} />
+                            </div>
+                            <CardMedia sx={{ width: '100%', height: '60vh', resize: "contain" }}
+                                component="img"
+                                image={map}
+                                //TODO ResizeMethod
+                                alt="No Preview" />
+                        </div>
+                        : <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                            <CircularProgress color="success" />
+                        </div>}
                 </Grid>
                 <Grid item sx={{ width: '100%', placeItems: 'center' }}>
                     <Typography variant='subtitle1' sx={{ color: theme.palette.grey['700'] }}>Seleccione Algunas Fotos</Typography>
-                    {!loading ? <ImageList sx={{ width: '100%', maxHeight: '60vh' }} cols={3} rowHeight={256}>
-                        {images.map((item) => (
+                    {!loading && <ImageList sx={{ width: '100%', maxHeight: '60vh' }} cols={3} rowHeight={256}>
+                        {images.filter((element) => element.url.includes("Preview")).map((item) => (
                             <ImageListItem key={item._id}>
                                 <img
                                     style={{ container: { height: 164 } }}
@@ -119,18 +136,19 @@ export default function EditSector(props) {
                                     onDoubleClick={() => handleImage(item.url)}
                                 />
                                 <ImageListItemBar
-
                                     actionIcon={sectorImages.indexOf(item.url) != -1 ? <CheckIcon sx={{ color: theme.palette.primary.light }} /> : <RemoveIcon sx={{ color: theme.palette.primary.light }} />}
                                 />
                             </ImageListItem>
                         ))}
-                    </ImageList> : <></>}
+                    </ImageList>}
                 </Grid>
                 <Grid item sx={{ width: "100%" }}>
                     {sector._id == 0 ? <></> : <ViasTable editable="true" />}
                 </Grid>
                 <Grid item sx={{ width: "100%" }}>
-                    {sector._id == 0 ? <Button variant='contained' sx={{ width: "100%", color: theme.palette.primary.contrastText }} onClick={() => { addSector() }}>Nuevo Sector</Button> : <Button variant='contained' sx={{ width: "100%", backgroundColor: theme.palette.secondary.contrastText }}>Modificar Sector</Button>}
+                    {sector._id == 0
+                        ? <Button variant='contained' sx={{ width: "100%", color: theme.palette.primary.contrastText }} onClick={() => { addSector() }}>Nuevo Sector</Button>
+                        : <Button variant='contained' sx={{ width: "100%", backgroundColor: theme.palette.secondary.contrastText }}>Modificar Sector</Button>}
                 </Grid>
             </Grid>
         </div>
