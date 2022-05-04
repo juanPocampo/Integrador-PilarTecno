@@ -5,7 +5,7 @@ import { Input, Button, Icon } from "react-native-elements";
 import { useDispatch } from "react-redux";
 import { theme } from "../../../services/constants";
 import { styles } from "./styles";
-import { setUserAction } from "../../../store/actions/user.action";
+import { setUserAction } from "../../../redux/Actions/api.action";
 
 export default LogIn = () => {
   const usrInfo = {
@@ -31,10 +31,8 @@ export default LogIn = () => {
     const _getStorage = async () => {
       try {
         const keys = (await AsyncStorage.getAllKeys()).length;
-        console.log(keys);
         if (keys > 0) {
           const adata = JSON.parse(await AsyncStorage.getItem("@user"));
-          console.log(adata);
           dispatcher(setUserAction(adata));
         }
       } catch (error) {
@@ -48,7 +46,7 @@ export default LogIn = () => {
   return (
     <SafeAreaView>
       <ImageBackground
-        source={require("../../../assets/images/bgGreenYellow.png")}
+        source={require("../../../assets/images/FondoApp.png")}
         style={styles.container}
       >
         <View style={styles.logInContainer}>

@@ -4,11 +4,13 @@ const width = Dimensions.get("window").width;
 const heigth = Dimensions.get("window").height;
 export const theme = {
   colors: {
-    primary: "#efc230",
+    primary: "#E2725B",
     active: "#efc230",
-    inactive: "#25917c",
-    bar: "#1abc9c",
+    inactive: "#571B0F",
+    text: "#1b5e20",
+    bar: "#E2725B",
   },
+  backgroundImage: require("../assets/images/LogoEscaladores.png"),
   Button: {
     buttonStyle: "red",
     titleStyle: {

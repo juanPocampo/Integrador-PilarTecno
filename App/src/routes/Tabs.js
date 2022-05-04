@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Icon } from "react-native-elements";
 import { theme } from "../services/constants";
@@ -6,9 +6,16 @@ import Home from "../screens/Home";
 import Profile from "../screens/Profile";
 import List from "../screens/List";
 import Mapa from "../screens/Mapa";
+import { useDispatch } from "react-redux";
+import { allSectores } from "../redux/Actions/api.action";
 const Tab = createMaterialBottomTabNavigator();
 export const Tabs = () => {
   const { colors } = theme;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(allSectores());
+  }, []);
+
   return (
     <Tab.Navigator
       activeColor={colors.active} //'#f5c511' //'rgb(41,34,97)',

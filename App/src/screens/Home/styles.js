@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { theme } from "../../services/constants";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -8,7 +9,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "black",
+    backgroundColor: "white",
   },
   mainContent: {
     flex: 1,
@@ -18,6 +19,8 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    opacity: 0.3,
+    resizeMode: "cover"
   },
   buttonContent: {
     width: width / 3,

@@ -8,9 +8,14 @@ import {
   ImageBackground,
   Alert,
 } from "react-native";
+import { useSelector } from "react-redux";
+import Header from "../../components/Header";
+import { theme } from "../../services/constants";
 import { styles } from "./styles";
 
 export default Home = ({ navigation }) => {
+  const sectores = useSelector((state) => state.sector.sectores);
+  console.log("s",sectores);
   const onPressHandle = (action) => {
     switch (action) {
       case "Home":
@@ -26,35 +31,12 @@ export default Home = ({ navigation }) => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground style={styles.mainContent} source={require('../../assets/images/bgGreenYellow.png')}>
-        <View>
-          <Pressable
-            onPress={() => onPressHandle("Home")}
-            style={[styles.buttonContent, { backgroundColor: "#CEEE74" }]}
-          >
-            <Text style={styles.textButton}>Home</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => onPressHandle("Profile")}
-            style={[styles.buttonContent, { backgroundColor: "#E13226" }]}
-          >
-            <Text style={styles.textButton}>Profile</Text>
-          </Pressable>
-        </View>
-        <View>
-          <Pressable
-            onPress={() => onPressHandle("Mapa")}
-            style={[styles.buttonContent, { backgroundColor: "#F0D23D" }]}
-          >
-            <Text style={styles.textButton}>Mapa</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => onPressHandle("List")}
-            style={[styles.buttonContent, { backgroundColor: "#55D3F7" }]}
-          >
-            <Text style={styles.textButton}>List</Text>
-          </Pressable>
-        </View>
+      <Header />
+      <ImageBackground
+        style={styles.mainContent}
+        source={theme.backgroundImage}
+      >
+        <View></View>
       </ImageBackground>
     </SafeAreaView>
   );

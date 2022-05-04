@@ -1,11 +1,11 @@
-import { GET_ALL_SECTORES, SET_SECTOR, SET_VIA } from "../Actions/api.action";
+import { GET_ALL_SECTORES, SET_SECTOR, SET_USER, SET_VIA } from "../Actions/api.action";
 
-const initialState = {
+const initialStateSector = {
   sectores: [],
   sector: {},
   via: {},
 };
-export const sectoresReducer = (state = initialState, { type, payload }) => {
+export const sectoresReducer = (state = initialStateSector, { type, payload }) => {
   switch (type) {
     case GET_ALL_SECTORES:
       return { ...state, sectores: payload };
@@ -18,7 +18,15 @@ export const sectoresReducer = (state = initialState, { type, payload }) => {
       return state;
   }
 };
+const initialStateUser= {
+  user: null
+}
 
-/* export const viasReducer = (state = initialState, {type, payload}) => {
-    case 
-} */
+export const userReducer = (state = initialStateUser, { type, payload }) => {
+  switch (type) {
+    case SET_USER:
+      return { ...state, user: payload };
+    default:
+      return state;
+  }
+};

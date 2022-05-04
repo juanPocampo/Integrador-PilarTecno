@@ -80,7 +80,7 @@ export default List = (props) => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../../assets/images/bgGreenYellow.png")}
+        source={theme.backgroundImage}
         style={styles.mainContent}
       >
         <FlatList

@@ -12,7 +12,8 @@ import { useSelector } from "react-redux";
 //! Crea una nueva pila para controlar el flujo de login
 const Stack = createStackNavigator();
 export default AppStack = (props) => {
-  const user = useSelector((state) => state.userReducer.user);
+  const user = useSelector((state) => state.user.user);
+  console.log("user AppStack", user);
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {user != null ? (

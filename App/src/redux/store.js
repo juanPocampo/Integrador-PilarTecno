@@ -1,13 +1,18 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from 'redux-thunk';
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import logger from "redux-logger";
+import thunk from "redux-thunk";
 import { appReducer } from "./appRedux";
-import { sectoresReducer } from "./Reducers/api.reducer";
+import { sectoresReducer, userReducer } from "./Reducers/api.reducer";
 
 const rootReducers = combineReducers({
   app: appReducer,
-  sector: sectoresReducer
+  sector: sectoresReducer,
+  user: userReducer,
 });
 
-const store = createStore(rootReducers, applyMiddleware(thunk));
+const store = createStore(
+  rootReducers,
+  compose(applyMiddleware(thunk, logger))
+);
 
-export default store;
+export { store };

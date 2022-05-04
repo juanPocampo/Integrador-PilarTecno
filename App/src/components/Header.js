@@ -1,11 +1,19 @@
-import { View, Text } from 'react-native'
-import LogoEscaladores from '../assets/images/LogoEscaladores.png'
-import React from 'react'
+import {} from "react-native";
+import React from "react";
+import { Header } from "react-native-elements";
+import { theme } from "../services/constants";
 
-export default function Header() {
+export default function AppHeader() {
   return (
-    <View>
-      <Image src={LogoEscaladores} alt="Escaladores La Rioja"/>
-    </View>
-  )
+    <Header
+      leftComponent={{ icon: "menu", color: "#571B0F" }}
+      centerComponent={{
+        text: "Escaladores La Rioja",
+        style: { color: "#efc230", fontWeight: "bold", fontSize: 18 },
+      }}
+      rightComponent={{ icon: "home", color: "#571B0F" }}
+      style={theme.header}
+      backgroundColor="#E2725B"
+    />
+  );
 }

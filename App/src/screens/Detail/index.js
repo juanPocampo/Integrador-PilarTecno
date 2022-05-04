@@ -12,7 +12,7 @@ import { ListItem } from "react-native-elements";
 import { IMG_URL, getPokemon } from "../../api";
 import { getPokemonImgId } from "../../services/utils";
 import { styles } from "./styles";
-import { theme } from "../../services/constans";
+import { theme } from "../../services/constants";
 import { ScrollView } from "react-native-gesture-handler";
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -59,7 +59,7 @@ export default Detail = (props) => {
     <SafeAreaView style={styles.container}>
       <ImageBackground
         style={styles.mainContent}
-        source={require("../../assets/images/bgGreenYellow.png")}
+        source={require("../../assets/images/FondoApp.png")}
       >
         <View style={styles.numberContainer}>
           <Text style={styles.number}>{imgID}</Text>

@@ -10,11 +10,11 @@ import {
 import { Avatar, Button, Icon } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import { theme } from "../../constans";
-import { setUserAction } from "../../store/actions/user.action";
+import { setUserAction } from "../../redux/Actions/api.action";
 import { styles } from "./styles";
 
 export default Profile = () => {
-  const usr = useSelector((state) => state.userReducer.user);
+  const usr = useSelector((state) => state.user.user);
   const dispatcher = useDispatch();
   return (
     <SafeAreaView style={styles.container}>
@@ -27,7 +27,7 @@ export default Profile = () => {
             <Avatar
               size="large"
               rounded
-              source={require("../../assets/images/ErenJaeger.jpg")}
+              source={require("../../assets/images/avatar_1.jpg")}
             />
             <View style={styles.column}>
               <Text style={styles.usrName}>{usr?.userName}</Text>
