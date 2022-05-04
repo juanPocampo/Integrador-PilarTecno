@@ -28,7 +28,7 @@ const ViasTable = (props) => {
     }
   }, [])
   const addVia = () => {
-    dispatch(setVia({ _id: "0" }))
+    dispatch(setVia({ _id: 0 }))
   }
   const delVia = async (via) => {
     const asking = withReactContent(Swal)

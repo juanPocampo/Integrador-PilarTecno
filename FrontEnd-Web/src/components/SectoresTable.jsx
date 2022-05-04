@@ -21,7 +21,7 @@ const SectoresTable = (props) => {
     dispatch(setSector(id))
   }
   const addSector = () => {
-    dispatch(setSector({ _id: "0" }))
+    dispatch(setSector({ _id: 0 }))
   }
   return (
     <Table >
