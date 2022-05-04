@@ -10,8 +10,8 @@ const ViaSchema = Joi.object({
   preview: Joi.string()
     .uri()
     .required(),
-  rockKind: Joi.string(),
-  desc: Joi.string(),
+  rockKind: Joi.string().min(0).allow('').allow(null),
+  desc: Joi.string().optional().min(0).allow('').allow(null),
   images: Joi.array().items(
     Joi.string().uri()
   ),
