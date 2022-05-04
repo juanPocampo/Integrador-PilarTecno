@@ -25,9 +25,10 @@ const patch = async (url, body) => {
     throw new Error(error);
   }
 };
-const delet = async (url) => {
+const delet = async (url, sectorId) => {
   try {
-    const response = await axios.delete(url);
+    const response = await axios.delete(url, { data: { sectorId } });
+    console.log(response);
     return response.data;
   } catch (error) {
     throw new Error(error);
