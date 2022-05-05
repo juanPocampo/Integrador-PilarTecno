@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import React, { Component, useCallback } from "react";
+import React, { Component, useCallback, useEffect, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -7,27 +7,25 @@ import {
   Pressable,
   ImageBackground,
   Alert,
+  ActivityIndicator,
+  ScrollView,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { Button, Card, Image } from "react-native-elements";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/Header";
+import { setSector } from "../../redux/Actions/api.action";
 import { theme } from "../../services/constants";
 import { styles } from "./styles";
 
 export default Home = ({ navigation }) => {
   const sectores = useSelector((state) => state.sector.sectores);
-  console.log("s",sectores);
-  const onPressHandle = (action) => {
-    switch (action) {
-      case "Home":
-        Alert.alert("Invalid Request", "Usted ya se encuentra en Home", [
-          { text: "Ok", onPress: () => console.log("Perfecto") },
-        ]);
-        break;
+  const dispatch = useDispatch()
 
-      default:
-        navigation.navigate(action);
-        break;
-    }
+  useEffect(() => {}, []);
+
+  const onPressHandle = (sec) => {
+    dispatch(setSector(sec))
+    navigation.navigate("Vias")
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -36,7 +34,30 @@ export default Home = ({ navigation }) => {
         style={styles.mainContent}
         source={theme.backgroundImage}
       >
-        <View></View>
+        <ScrollView>
+          {sectores && sectores.length > 0 ? (
+            sectores.map((sec) => (
+              <Card containerStyle={styles.card} key={sec._id}>
+                <Card.Title>{sec.name}</Card.Title>
+                <View style={styles.cardContainer}>
+                  <Card.Image
+                    source={{ uri: sec.images[0] }}
+                    style={styles.cardMedia}
+                    resizeMode="cover"
+                    alt="No PReview"
+                  />
+                  <Button
+                    title="Ver Sector"
+                    style={styles.buttonContent}
+                    onPress={() => onPressHandle(sec)}
+                  />
+                </View>
+              </Card>
+            ))
+          ) : (
+            <ActivityIndicator size="large" color={theme.colors.primary} />
+          )}
+        </ScrollView>
       </ImageBackground>
     </SafeAreaView>
   );

@@ -34,7 +34,7 @@ export const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="List"
+        name="Vias"
         component={List}
         options={{
           tabBarIcon: ({ color }) => (

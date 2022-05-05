@@ -40,7 +40,7 @@ async function getSectores(req, res) {
  */
 async function getSector(req, res) {
   try {
-    const _id = req.params;
+    const _id = req.params.id;
     const response = await Sector.findById(_id).populate("vias");
     res.status(200).json(response);
   } catch (err) {

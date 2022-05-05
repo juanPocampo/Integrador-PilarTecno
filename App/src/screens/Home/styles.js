@@ -19,15 +19,24 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    opacity: 0.3,
-    resizeMode: "cover"
+    opacity: 1,
+    resizeMode: "cover",
+  },
+  card: {
+    cardBackg: theme.colors.primary,
+    cardOpacity: 1,
+  },
+  cardContainer: {
+    width: "100%",
+    height: height / 5,
+  },
+  cardMedia: {
+    width: "100%",
+    height: "80%",
+    marginRight: 10,
   },
   buttonContent: {
-    width: width / 3,
-    height: width / 3,
-    margin: 5,
-    borderRadius: 5,
-    justifyContent: "center",
+    backgroundColor: theme.colors.primary
   },
   textButton: {
     width: "100%",

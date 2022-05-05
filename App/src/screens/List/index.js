@@ -9,46 +9,41 @@ import {
   ImageBackground,
 } from "react-native";
 import { Text, Avatar, Button, Icon, ListItem } from "react-native-elements";
-import Header from "../../components/Header";
-import { getPokemonList, IMG_URL } from "../../api";
-import { getPokemonImgId } from "../../services/utils";
+import { getSectorById } from "../../services/api.services";
+import { useDispatch, useSelector } from "react-redux";
 import { styles } from "./styles";
 import { theme } from "../../services/constants";
+import AppHeader from "../../components/Header";
+import { setSector } from "../../redux/Actions/api.action";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 export default List = (props) => {
-  const [pokemons, setPokemons] = useState();
+  const sector = useSelector((state) => state.sector.sector);
+  const dispatch = useDispatch();
+  const [vias, setVias] = useState(sector.vias || []);
   const [next, setNext] = useState();
   const [refreshing, setRefreshing] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
-  useEffect(() => {
-    getPokemonList().then((data) => {
-      setPokemons(data.results);
-      setNext(data.next);
-    });
-  }, []);
-  const loadMore = () => {
-    setLoadingMore(true);
-    getPokemonList(next).then((data) => {
-      setPokemons([...pokemons, ...data.results]);
-      setNext(data.next);
-      setLoadingMore(false);
-    });
+  useEffect(() => {}, []);
+  const onRefresh = () => {
+    getSectorById(sector._id)
+      .then((result) => {
+        console.log(result);
+        dispatch(setSector(result));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    console.log("refreshing");
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
   const renderItem = (item) => {
-    const path = item.url.split("/");
-    const imgID = getPokemonImgId(path[6]);
     return (
       <TouchableOpacity
-        onPress={() => props.navigation.navigate("Detail", (item = { item }))}
+        onPress={() => {
+          props.navigation.navigate("Detail", (item = { item }));
+        }}
         style={{
           marginVertical: "1%",
           alignItems: "center",
@@ -63,15 +58,10 @@ export default List = (props) => {
             borderRadius: 5,
           }}
         >
-          <Avatar
-            size="large"
-            source={{
-              uri: `${IMG_URL}${imgID}.png
-          `,
-            }}
-          />
           <ListItem.Content>
-            <ListItem.Title style={styles.pokeName}>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</ListItem.Title>
+            <ListItem.Title style={styles.pokeName}>
+              {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+            </ListItem.Title>
           </ListItem.Content>
         </ListItem>
       </TouchableOpacity>
@@ -83,8 +73,9 @@ export default List = (props) => {
         source={theme.backgroundImage}
         style={styles.mainContent}
       >
+        <AppHeader />
         <FlatList
-          data={pokemons}
+          data={vias}
           bounces={false}
           renderItem={(item, index) => renderItem(item.item, index)}
           keyExtractor={(item, index) => index}
@@ -93,13 +84,6 @@ export default List = (props) => {
               refreshing={refreshing}
               onRefresh={() => onRefresh()}
             />
-          }
-          ListFooterComponent={
-            loadingMore ? (
-              <ActivityIndicator />
-            ) : (
-              <Button title="Cargar mas" onPress={() => loadMore()} />
-            )
           }
         />
       </ImageBackground>
